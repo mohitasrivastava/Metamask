@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { EnsResolver, ethers } from 'ethers';
+import { ethers } from 'ethers';
 
-//0x356F58E30A54377d129FB12aa4e83d6eF218351D
+// 0x356F58E30A54377d129FB12aa4e83d6eF218351D
 const MetaMask = () => {
   console.log('meta');
   const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
-  const [userBalance, setUserBalance] = useState(null); //kjslkdlsdfkjsf
+  const [userBalance, setUserBalance] = useState(null);
 
   const connectWallet = () => {
     if (window.ethereum) {
@@ -32,9 +32,10 @@ const MetaMask = () => {
         params: [String(accountAddress), 'latest'],
       })
       .then((balance) => {
-        setUserBalance(ethers.utils.formatEther(balance));
+        setUserBalance(ethers.formatEther(balance)); // Use utils.formatEther
       });
   };
+
   const sendTransaction = async (e) => {
     e.preventDefault();
     let params = [
@@ -50,6 +51,7 @@ const MetaMask = () => {
       .request({ method: 'eth_sendTransaction', params })
       .catch((e) => console.log(e, 'error'));
   };
+
   const productSelect = async (e) => {
     let sales_value;
 
@@ -81,6 +83,7 @@ const MetaMask = () => {
       .request({ method: 'eth_sendTransaction', params })
       .catch((e) => console.log(e, 'error'));
   };
+
   return (
     <center>
       <h1>MetaMask Wallet Connection </h1>
@@ -95,15 +98,13 @@ const MetaMask = () => {
         <input
           type="text"
           name="to_address"
-          // value={recipient}
-          // onChange={(e) => setRecipient(e.target.value)}
           placeholder="Recipient address"
           required
         />
 
         <input type="submit" value="submit" />
       </form>
-      <hr></hr>
+      <hr />
       <form onSubmit={productSelect}>
         <label>Pick your Product:</label>
         <select name="product_form" id="product_form">
@@ -118,4 +119,5 @@ const MetaMask = () => {
     </center>
   );
 };
+
 export default MetaMask;
